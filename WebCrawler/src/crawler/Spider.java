@@ -48,6 +48,7 @@ public class Spider {
             if(success)
             {
                 System.out.println(String.format("**Success** Word %s found at %s", searchWord, currentUrl));
+                System.out.println();
                 break;
             }  
             this.pagesToVisit.addAll(leg.getLinks());

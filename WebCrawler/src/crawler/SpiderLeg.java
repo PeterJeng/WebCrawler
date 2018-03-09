@@ -75,6 +75,7 @@ public class SpiderLeg {
         }
         System.out.println("Searching for the word " + searchWord + "...");
         String bodyText = this.htmlDocument.body().text();
+        System.out.println(this.htmlDocument.title());
         return bodyText.toLowerCase().contains(searchWord.toLowerCase());
     }
 
