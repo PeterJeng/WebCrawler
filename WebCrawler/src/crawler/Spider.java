@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Spider {
-	private static final int MAX_PAGES_TO_SEARCH = 10;
+	private static final int MAX_PAGES_TO_SEARCH = 20;
 	// pages we have already visited, using Set for no repeats
 	private Set<String> pagesVisited = new HashSet<String>();
 	// a list of links found on the page to open
@@ -42,17 +42,21 @@ public class Spider {
             {
                 currentUrl = this.nextUrl();
             }
-            leg.crawl(currentUrl); // Lots of stuff happening here. Look at the crawl method in
+            leg.crawl(currentUrl, searchWord); // Lots of stuff happening here. Look at the crawl method in
                                    // SpiderLeg
             boolean success = leg.searchForWord(searchWord);
             if(success)
             {
                 System.out.println(String.format("**Success** Word %s found at %s", searchWord, currentUrl));
                 System.out.println();
-                break;
             }  
             this.pagesToVisit.addAll(leg.getLinks());
         }
         System.out.println(String.format("**Done** Visited %s web page(s)", this.pagesVisited.size())) ;
     }
+	
+	public void start(List<String> pagesToVist) {
+		
+		
+	}
 }
