@@ -42,7 +42,6 @@ public class GoogleSearchResults {
 
 		int count = 0;
 		for (int i = 41; i < 100; i++) {
-
 			// *NOTE: If google flags you for being a robot, you can copy paste the url and
 			// submit the form confirming you're not a robot, then it will append some stuff
 			// to your previous url which you can use as the new value for the url variable
@@ -56,12 +55,22 @@ public class GoogleSearchResults {
 			try {
 				Document doc = Jsoup.connect(URL).userAgent(USER_AGENT).get();
 				Data newData;
-
+				
+				//stores previous dates in case we have results with no dates
+				String tmpDate = "";
 				// Traverse the results
 				for (Element result : doc.select("div.g")) {
 					String title = result.select("h3.r a").text();
 					String url = result.select("h3.r a").attr("href");
 					String date = result.select("span.f").text();
+					
+					//fills in empty dates
+					if(date.isEmpty()) {
+						date = tmpDate;
+					}
+					else {
+						tmpDate = date;
+					}
 
 					newData = new Data();
 					newData.setTitle(title);
