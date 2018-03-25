@@ -1,11 +1,14 @@
 package googleSearch;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import java.util.Scanner;
 
 /**
  * 
@@ -33,21 +36,21 @@ public class GoogleSearchResults {
 		// modifying date to 365 changes it to december
 		// ccd_max is end date, keep end and start date the same for best results
 		String query, URL;
-		String exemption = "GOOGLE_ABUSE_EXEMPTION%3DID%3Daa6705dfc94a9333:TM%3D1522013150:C%3Dr:IP%3D128.6.37.213-:S%3DAPGng0u3ZbIvj00KYX3VMVeEeLXy4JLeXA%3B+path%3D/%3B+domain%3Dgoogle.com%3B+expires%3DMon,+26-Mar-2018+00:25:50+GMT";
+		String exemption = "GOOGLE_ABUSE_EXEMPTION%3DID%3Dcf97ba45a550be76:TM%3D1522016723:C%3Dr:IP%3D24.185.58.176-:S%3DAPGng0uocd6UwceuS0A13wi2kqOGPguLfw%3B+path%3D/%3B+domain%3Dgoogle.com%3B+expires%3DMon,+26-Mar-2018+01:25:23+GMT";
 		// Fetch the page
 
 		// ArrayList to Hold the data
 		ArrayList<Data> DataSet = new ArrayList<Data>();
 
 		int count = 0;
-		for (int i = 1; i < 366; i++) {
+		for (int i = 1; i < 3; i++) {
 			// *NOTE: If google flags you for being a robot, you can copy paste the url and
 			// submit the form confirming you're not a robot, then it will append some stuff
 			// to your previous url which you can use as the new value for the url variable
 			// Notice that after 'bm=' there is something called 'Google_Abuse_Exemption', I
 			// believe that allows us to continue scraping!
 			query = "https://www.google.com/search?q=cryptocurrency&num=100&biw=1536&bih=759&source=lnt&tbs=sbd%3A1%2Ccdr%3A1%2Ccd_min%3A1%2F"
-					+ i + "%2F2017%2Ccd_max%3A1%2F" + i + "%2F2017&tbm=&google_abuse=";
+				 	+ i + "%2F2017%2Ccd_max%3A1%2F" + i + "%2F2017&tbm=&google_abuse=";
 			URL = query + exemption;
 			
 			//if flagged for scraping, just add in the new google_abuse_exemption url and press enter
@@ -105,8 +108,27 @@ public class GoogleSearchResults {
 		for (Data p : DataSet) {
 			System.out.println(p.getDate() + " | " + p.getTitle() + " | " + p.getUrl());
 		}
+		
+		writeToFile(DataSet);
 
 		System.out.println("DONE");
 
+	}
+	
+	public static void writeToFile(ArrayList<Data>DataSet) {
+		BufferedWriter outputWriter = null;
+		try {
+			outputWriter = new BufferedWriter(new FileWriter("dataset.txt"));
+			
+			for (Data p : DataSet) {
+			outputWriter.write(p.getDate() + "	" + p.getTitle() + "	" + p.getUrl());
+			outputWriter.newLine();
+			}
+			
+			outputWriter.close();
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 }
