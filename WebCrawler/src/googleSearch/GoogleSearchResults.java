@@ -9,6 +9,7 @@ import java.util.Scanner;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * 
@@ -43,7 +44,7 @@ public class GoogleSearchResults {
 		ArrayList<Data> DataSet = new ArrayList<Data>();
 
 		int count = 0;
-		for (int i = 1; i < 10; i++) {
+		for (int i = 1; i < 366; i++) {
 			// *NOTE: If google flags you for being a robot, you can copy paste the url and
 			// submit the form confirming you're not a robot, then it will append some stuff
 			// to your previous url which you can use as the new value for the url variable
@@ -68,6 +69,8 @@ public class GoogleSearchResults {
 					
 					if (date.isEmpty()) {
 						date = result.select("div.slp.f").text();
+						if(date.length() > 14)
+							date = date.substring(0, 14);
 					}
 					
 					//fills in empty dates
@@ -79,7 +82,7 @@ public class GoogleSearchResults {
 					}
 
 					newData = new Data();
-					if(!(title.contains(";"))) {
+					if(!((title.contains(";")) || (title.contains("#")))) {
 						newData.setTitle(title);
 					}
 					newData.setUrl(url);
