@@ -43,7 +43,7 @@ public class GoogleSearchResults {
 		ArrayList<Data> DataSet = new ArrayList<Data>();
 
 		int count = 0;
-		for (int i = 1; i < 3; i++) {
+		for (int i = 1; i < 366; i++) {
 			// *NOTE: If google flags you for being a robot, you can copy paste the url and
 			// submit the form confirming you're not a robot, then it will append some stuff
 			// to your previous url which you can use as the new value for the url variable
@@ -75,7 +75,9 @@ public class GoogleSearchResults {
 					}
 
 					newData = new Data();
-					newData.setTitle(title);
+					if(!(title.contains(";"))) {
+						newData.setTitle(title);
+					}
 					newData.setUrl(url);
 					newData.setDate(date);
 					DataSet.add(newData);
@@ -121,7 +123,7 @@ public class GoogleSearchResults {
 			outputWriter = new BufferedWriter(new FileWriter("dataset.txt"));
 			
 			for (Data p : DataSet) {
-			outputWriter.write(p.getDate() + "	" + p.getTitle() + "	" + p.getUrl());
+			outputWriter.write(p.getDate() + ";" + p.getTitle() + ";" + p.getUrl());
 			outputWriter.newLine();
 			}
 			
